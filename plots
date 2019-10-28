@@ -1,0 +1,32 @@
+#!/bin/bash
+
+BASE_DIR=`pwd` 
+DIRNAME="F"
+DF=(NE AR KR XE RN)
+runs=(1)
+for i in ${runs[@]}
+do
+	for d in ${DF[@]}
+	do 
+    		DN=${BASE_DIR}/$d/TI_$i
+    		cd $DN
+		pwd
+		mkdir data
+		mkdir results
+		for state in `ls -d state_*`
+			do
+				cd $state
+				cp Free_Energy_BOX_0_PRODUCTION* ../data
+				cd ..
+			done
+			alchemical_analysis
+    	    	python /home4/jpotoff/GOMC/alchemical-analysis/alchemical_analysis/alchemical_analysis.py -a GOMC -p Free_Energy_BOX_0_PRODUCTION_ -u kcal -q dat -g True -w True -f 5 -d data -o results
+	done
+done
+
+#for i in `ls -d state_*`
+#do
+#	cd $i
+#	cp Free_Energy_BOX_0_PRODUCTION_* ../data
+#	cd ..
+#done

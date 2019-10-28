@@ -35,13 +35,15 @@ def get_delta2(est):
 
 ##################################################
 
-numFile = 22
-compounds = ["F3O", "F5O", "F7O", "F9O", "F11O", "F13O", "F15O", "F17O"]
+numFile = 4
+compounds = ["NE", "AR", "KR", "XE", "RN"]
 fname = "Free_Energy_BOX_0_PRODUCTION_"
 ext = ".dat"
-NREP = 5
-
+NREP = 1
+outfile="dG_uncorr.dat"
+file_out=open(outfile,'w')
 print("%16s, %16s, %16s, %16s, %16s, %16s, %16s" % ("#Compound","TI(kcal/mol)","stdev","MBAR(kcal/mol)","stdev","BAR(kcal/mol)","stdev"))
+file_out.write("%16s, %16s, %16s, %16s, %16s, %16s, %16s\n" % ("#Compound","TI(kcal/mol)","stdev","MBAR(kcal/mol)","stdev","BAR(kcal/mol)","stdev"))
 
 #loop through all compounds
 for com in compounds:
@@ -94,9 +96,12 @@ for com in compounds:
         bars.append(sum_bar)
     
         print("Replica-%d, %4s,  %7.4f,  %7.4f,  %7.4f,  %7.4f,  %7.4f,  %7.4f" % (nr, com, sum_ti, sum_ds_ti, sum_mbar, sum_ds_mbar, sum_bar, sum_ds_bar))
+        file_out.write("Replica-%d, %4s,  %7.4f,  %7.4f,  %7.4f,  %7.4f,  %7.4f,  %7.4f\n" % (nr, com, sum_ti, sum_ds_ti, sum_mbar, sum_ds_mbar, sum_bar, sum_ds_bar))
 
         
     tis = np.array(tis)
     mbars = np.array(mbars)
     bars = np.array(bars)
     print("Average, %4s,  %7.4f,  %7.4f,  %7.4f,  %7.4f,  %7.4f,  %7.4f" % (com, np.average(tis), np.std(tis), np.average(mbars), np.std(mbars), np.average(bars), np.std(bars)))        
+    file_out.write("Average, %4s,  %7.4f,  %7.4f,  %7.4f,  %7.4f,  %7.4f,  %7.4f\n" % (com, np.average(tis), np.std(tis), np.average(mbars), np.std(mbars), np.average(bars), np.std(bars)))        
+file_out.close()
